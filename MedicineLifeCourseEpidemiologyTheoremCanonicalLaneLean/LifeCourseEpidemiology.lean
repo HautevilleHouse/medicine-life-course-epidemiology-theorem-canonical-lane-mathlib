@@ -1,0 +1,27 @@
+import canonicalLaneMathlib.AdmissibleClass
+import HautevilleHouse.MedicineLifeCourseEpidemiologyTheoremCanonicalLaneLean.CompartmentModel
+import HautevilleHouse.MedicineLifeCourseEpidemiologyTheoremCanonicalLaneLean.Pharmacokinetics
+import HautevilleHouse.MedicineLifeCourseEpidemiologyTheoremCanonicalLaneLean.DiagnosticInference
+import HautevilleHouse.MedicineLifeCourseEpidemiologyTheoremCanonicalLaneLean.SurvivalAnalysis
+
+namespace HautevilleHouse
+namespace MedicineLifeCourseEpidemiologyTheoremCanonicalLaneLean
+
+structure LifeCourseEpidemiologyFoundation where
+  compartmentModel : CompartmentModel
+  compartmentModelEvidence : CompartmentModelEvidence compartmentModel
+  pharmacokinetics : PharmacokineticPackage compartmentModel
+  pharmacokineticsEvidence : PharmacokineticEvidence pharmacokinetics
+  diagnosticTest : DiagnosticTest
+  diagnosticTestEvidence : DiagnosticTestEvidence diagnosticTest
+  survivalModel : SurvivalModel
+  survivalModelEvidence : SurvivalModelEvidence survivalModel
+
+def LifeCourseEpidemiologyFoundationClosed (A : LifeCourseEpidemiologyFoundation) : Prop :=
+  CompartmentModelClosed A.compartmentModel ∧ PharmacokineticClosed A.pharmacokinetics ∧ DiagnosticTestClosed A.diagnosticTest ∧ SurvivalModelClosed A.survivalModel
+
+theorem life_course_epidemiology_foundation_closed (A : LifeCourseEpidemiologyFoundation) : LifeCourseEpidemiologyFoundationClosed A :=
+  And.intro (compartment_model_closed_from_evidence A.compartmentModel A.compartmentModelEvidence) (And.intro (pharmacokinetic_closed_from_evidence A.pharmacokinetics A.pharmacokineticsEvidence) (And.intro (diagnostic_test_closed_from_evidence A.diagnosticTest A.diagnosticTestEvidence) (survival_model_closed_from_evidence A.survivalModel A.survivalModelEvidence)))
+
+end MedicineLifeCourseEpidemiologyTheoremCanonicalLaneLean
+end HautevilleHouse
